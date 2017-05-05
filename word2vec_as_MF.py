@@ -9,6 +9,7 @@ from numpy.linalg import svd, qr
 from scipy.spatial.distance import cosine
 from scipy.sparse.linalg import svds
 
+DISPLAY_NUM = 10000
 class Word2vecMF(object):
     
     def __init__(self):
@@ -38,7 +39,12 @@ class Word2vecMF(object):
         """
 
         prevocabulary = {}
+        length = len(data)
+        num = 0
         for sentence in data:
+            if num % DISPLAY_NUM == 0:
+                print num/float(length)
+            num += 1
             for word in sentence:
                 if not prevocabulary.has_key(word):
                     prevocabulary[word] = 1
@@ -51,7 +57,7 @@ class Word2vecMF(object):
             if (prevocabulary[word] >= r):
                 vocabulary[word] = idx
                 idx += 1
-        
+        print "finish vocab"
         return vocabulary
 
     def create_matrix_D(self, data, window_size=5):
@@ -62,16 +68,23 @@ class Word2vecMF(object):
         dim = len(self.vocab)
         D = np.zeros((dim, dim))
         s = window_size/2
-            
+        
+        length = len(data)
+        num = 0
         for sentence in data:
+            if num % DISPLAY_NUM == 0:
+                print num/float(length)
+            num += 1
             l = len(sentence)
+            # zls
             for i in xrange(l):
-                for j in xrange(max(0,i-s), min(i+s+1,l)):
-                    if (i != j and self.vocab.has_key(sentence[i]) 
-                        and self.vocab.has_key(sentence[j])):
-                        c = self.vocab[sentence[j]]
-                        w = self.vocab[sentence[i]]
-                        D[c][w] += 1                  
+                if self.vocab.has_key(sentence[i]):
+                    for j in xrange(max(0,i-s), min(i+s+1,l)):
+                        if (i != j and self.vocab.has_key(sentence[j])):
+                            c = self.vocab[sentence[j]]
+                            w = self.vocab[sentence[i]]
+                            D[c][w] += 1        
+        print "finish D"          
         return D        
     
     def create_matrix_B(self, k):
@@ -79,12 +92,13 @@ class Word2vecMF(object):
         Create matrix B (defined in init).
         """
         
-        c_ = self.D.sum(axis=1)
-        w_ = self.D.sum(axis=0)
+        c_ = self.D.sum(axis=1) # #(c)
+        w_ = self.D.sum(axis=0) # #(w)
         P = self.D.sum()
 
         w_v, c_v = np.meshgrid(w_, c_)
         B = k*(w_v*c_v)/float(P)
+        print "finish B"          
         return B
         
     ######################### Necessary functions #########################
@@ -132,8 +146,8 @@ class Word2vecMF(object):
     
     ################# Alternating minimization algorithm ##################
     
-    def alt_min(self, eta=1e-7, d=100, MAX_ITER=1, from_iter=0, display=0,
-                init=(False, None, None), save=(False, None)):
+    def alt_min(self, eta=1e-7, d=100, MAX_ITER=1, from_iter=0, display=0, 
+        init=(False, None, None), save=(False, None)):
         """
         Alternating mimimization algorithm for word2vec matrix factorization.
         """
@@ -210,8 +224,9 @@ class Word2vecMF(object):
             X = U.dot(S).dot(V)                                  
 
     def stochastic_ps(self, eta=5e-6, batch_size=100, d=100, 
-                      MAX_ITER=1, from_iter=0, display=0,
-                      init=(False, None, None), save=(False, None)):
+                    MAX_ITER=1, from_iter=0, display=0,
+                    init=(False, None, None), save=(False, None)):
+
         """
         Stochastic version of projector splitting."
         """

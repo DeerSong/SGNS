@@ -10,7 +10,7 @@ from scipy.sparse.linalg import svds
 from scipy.spatial.distance import cosine
 from scipy.stats import spearmanr
 
-from word2vec_as_EMF import Word2vecMF
+from word2vec_as_MF import Word2vecMF
 
 def load_sentences(mode='debug'):
     """
