@@ -1,3 +1,6 @@
 *.pyc
-enwik9
-enwik9.zip
+data/enwik/enwik9
+data/enwik/enwik9.txt
+data/enwik/enwik9.zip
+enwik-200/
+.ipynb_checkpoints/
