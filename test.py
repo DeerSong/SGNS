@@ -17,6 +17,7 @@ import itertools
 import pickle
 import math
 import re
+import sys
 
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
@@ -31,59 +32,77 @@ from functions import *
 # In[2]:
 
 # Load enwik 9
-f = open("data/enwik/enwik9.txt")
-data = f.readlines()
-f.close()
-print "finish Reading"
-# data = np.genfromtxt("data/enwik/enwik9.txt", dtype=str, delimiter='.')
-#data = np.loadtxt("data/enwik/enwik9.txt", dtype=str, delimiter='.')
+# f = open("data/enwik/enwik9.txt")
+# data = f.read()
+# data = data.split('.')
+# f.close()
+# print "finish Reading"
+# # data = np.genfromtxt("data/enwik/enwik9.txt", dtype=str, delimiter='.')
+# #data = np.loadtxt("data/enwik/enwik9.txt", dtype=str, delimiter='.')
 
 
-# In[ ]:
+# # In[ ]:
 
-def wiki_to_wordlist(sentence, remove_stopwords=False ):
-    # Function to convert a document to a sequence of words,
-    # optionally removing stop words.  Returns a list of words.
+# def wiki_to_wordlist(sentence, remove_stopwords=False ):
+#     # Function to convert a document to a sequence of words,
+#     # optionally removing stop words.  Returns a list of words.
 
-    # 3. Convert words to lower case and split them
-    words = sentence.split()
-    #
-    # 4. Optionally remove stop words (false by default)
-    if remove_stopwords:
-        stops = set(stopwords.words("english"))
-        words = [w for w in words if not w in stops]
-    #
-    # 5. Return a list of words
-    return(words)
+#     # 3. Convert words to lower case and split them
+#     words = sentence.split()
+#     #
+#     # 4. Optionally remove stop words (false by default)
+#     if remove_stopwords:
+#         stops = set(stopwords.words("english"))
+#         words = [w for w in words if not w in stops]
+#     #
+#     # 5. Return a list of words
+#     return words
 
 
-# In[ ]:
+# # In[ ]:
+# # print sys.getsizeof([data])
+# # str = raw_input("Enter your input: ");
+# # print "Parsing sentences from training set"
+# sentences = []  # Initialize an empty list of sentences
+# num = len(data)
+# k = 0
 
-sentences = []  # Initialize an empty list of sentences
+# for k in range(len(data)):
+#     # for i in xrange(1,10):
+#     #     if (k/float(num)<0.1*i):
+#     #         print 0.1*i
+#     #         break
+#     data[k] = wiki_to_wordlist(data[k])
+#     k += 1
 
-print "Parsing sentences from training set"
-for line in data:
-    if line != '\n':
-        sents = line.split('.')
-        for sentence in sents:
-            sentences += [wiki_to_wordlist(sentence.decode('utf-8'))]
-# print sentences
+# # print data
+# # print sentences
+# print len(data)
+# print len(sentences)
+# str = raw_input("Copy");
+# sentences = data
+# del data
 
-indices = []
-for i, sentence in enumerate(sentences):
-    if not sentence:
-        pass
-    else:
-        indices.append(i)
 
-real_sentences = np.array(sentences)[indices]
-print "finish Parsing"
+# str = raw_input("Enter your input: ");
+# indices = []
+# for i, sentence in enumerate(sentences):
+#     if not sentence:
+#         pass
+#     else:
+#         indices.append(i)
 
-# In[ ]:
+# real_sentences = np.array(sentences)[indices]
+# del indices
+# del sentences
+# # print real_sentences
+# print "finish Parsing"
 
-# Create word2vec as matrix factorization model
-model_enwik = Word2vecMF()
-model_enwik.data_to_matrices(real_sentences, 200, 5, 'enwik-200/matrices.npz')
+# # In[ ]:
+
+# # Create word2vec as matrix factorization model
+# model_enwik = Word2vecMF()
+# model_enwik.data_to_matrices(real_sentences, 200, 5, 'enwik-200/matrices.npz')
 
 
 # In[ ]:

@@ -47,7 +47,7 @@ def opt_experiment(model,
                    d = 100,
                    eta = 5e-6,
                    batch_size = 1000,
-                   MAX_ITER = 100,
+                   MAX_ITER = 10,
                    from_iter = 0,
                    start_from = 'RAND',
                    init = (False, None, None)            
