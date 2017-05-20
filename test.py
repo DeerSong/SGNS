@@ -108,7 +108,7 @@ model_enwik.data_to_matrices(real_sentences, 200, 5, 'enwik-200/matrices.npz')
 # If the model has been already created, load it from file
 model_enwik = Word2vecMF()
 model_enwik.load_matrices(from_file='enwik-200/matrices.npz')
-
+print "finish Loading"
 
 # ## Train ro_sgns model starting from SVD of SPPMI
 
@@ -130,7 +130,7 @@ model_enwik.save_CW('enwik-200/initializations/SVD_dim200', 0)
 
 
 # In[ ]:
-
+print "Begin to Train"
 # Train the model
 opt_experiment(model_enwik,
                mode='PS', 

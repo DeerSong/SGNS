@@ -29,9 +29,8 @@ words = ["five", "he", "main", "him"]
 for i in range(MAX_ITER):
     model_enwik.load_CW('enwik-200/PS20iter_fromSVD_dim200_step5e-05_factors', i)
     l = len(model_enwik.W[0])
-    # print l
     MF = model_enwik.MF(model_enwik.C, model_enwik.W)
-    print l*l*MF
+    print l*l*MF*1e-9
     # print MF
 model_enwik.load_CW('enwik-200/PS20iter_fromSVD_dim200_step5e-05_factors', 15)
 for word in words:
