@@ -22,7 +22,7 @@ from functions import *
 
 
 model_enwik = Word2vecMF()
-model_enwik.load_matrices(from_file='enwik-200/matrices.npz')
+model_enwik.load_matrices(from_file='enwik-200/matrices_little.npz')
 
 MAX_ITER = 17
 words = ["him", "five", "main"]
@@ -30,8 +30,8 @@ words = ["him", "five", "main"]
 #     model_enwik.load_CW('enwik-200/PS40iter_fromSVD_dim200_step5e-05_factors', i)
 #     MF = model_enwik.MF(model_enwik.C, model_enwik.W)
 #     print MF
-model_enwik.load_CW('enwik-200/PS37iter_fromSVD_dim200_step5e-05_factors', 17)
-x = datasets_corr(model_enwik, "datasets", "enwik-200/PS37iter_fromSVD_dim200_step5e-05_factors",MAX_ITER,plot_corrs=False)
+model_enwik.load_CW('enwik-200/PS100iter_fromSVD_dim200_step5e-05_factors', 17)
+x = datasets_corr(model_enwik, "datasets", "enwik-200/PS100iter_fromSVD_dim200_step5e-05_factors",MAX_ITER,plot_corrs=False)
 for i in x:
     print i
     print x[i]
