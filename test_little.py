@@ -32,10 +32,10 @@ from functions import *
 # In[2]:
 
 # Load enwik 9
-'''f = open("data/enwik/enwik9.txt")
+f = open("data/enwik/out")
 data = f.read()
 data = data.split('.')
-f.close()'''
+f.close()
 print "finish Reading"
 # data = np.genfromtxt("data/enwik/enwik9.txt", dtype=str, delimiter='.')
 #data = np.loadtxt("data/enwik/enwik9.txt", dtype=str, delimiter='.')
@@ -63,7 +63,7 @@ def wiki_to_wordlist(sentence, remove_stopwords=False ):
 # print sys.getsizeof([data])
 # str = raw_input("Enter your input: ");
 # print "Parsing sentences from training set"
-'''sentences = []  # Initialize an empty list of sentences
+sentences = []  # Initialize an empty list of sentences
 num = len(data)
 k = 0
 
@@ -79,10 +79,12 @@ for k in range(len(data)):
 # print sentences
 print len(data)
 print len(sentences)
+# str = raw_input("Copy");
 sentences = data
 del data
 
 
+# str = raw_input("Enter your input: ");
 indices = []
 for i, sentence in enumerate(sentences):
     if not sentence:
@@ -94,20 +96,21 @@ real_sentences = np.array(sentences)[indices]
 del indices
 del sentences
 # print real_sentences
-print "finish Parsing"'''
+print "finish Parsing"
 
 # In[ ]:
 
 # Create word2vec as matrix factorization model
-'''model_enwik = Word2vecMF()
-model_enwik.data_to_matrices(real_sentences, 200, 5, 'enwik-200/matrices.npz')
-'''
+model_enwik = Word2vecMF()
+model_enwik.data_to_matrices(real_sentences, 1, 5, 'enwik-200/matrices_10.npz')
+# yuanlaishi 200
+
 
 # In[ ]:
 
 # If the model has been already created, load it from file
-model_enwik = Word2vecMF()
-model_enwik.load_matrices(from_file='enwik-200/matrices.npz')
+# model_enwik = Word2vecMF()
+# model_enwik.load_matrices(from_file='enwik-200/matrices.npz')
 
 
 # ## Train ro_sgns model starting from SVD of SPPMI
@@ -116,7 +119,7 @@ model_enwik.load_matrices(from_file='enwik-200/matrices.npz')
 
 # SVD initialization
 SPPMI = np.maximum(np.log(model_enwik.D) - np.log(model_enwik.B), 0)
-u, s, vt = svds(SPPMI, k=200)
+u, s, vt = svds(SPPMI, k=5)
 C_svd = u.dot(np.sqrt(np.diag(s))).T
 W_svd = np.sqrt(np.diag(s)).dot(vt)
 
@@ -126,7 +129,7 @@ W_svd = np.sqrt(np.diag(s)).dot(vt)
 model_enwik.C = C_svd
 model_enwik.W = W_svd
 
-model_enwik.save_CW('enwik-200/initializations/SVD_dim200', 0)
+model_enwik.save_CW('enwik-200/initializations/SVD_dim5', 0)
 
 
 # In[ ]:
@@ -134,10 +137,10 @@ model_enwik.save_CW('enwik-200/initializations/SVD_dim200', 0)
 # Train the model
 opt_experiment(model_enwik,
                mode='PS', 
-               d=200,
+               d=5,
                eta = 5e-5,
-               MAX_ITER=10,
-               from_iter=10,
+               MAX_ITER=100,
+               from_iter=0,
                start_from='SVD',
                init=(True, C_svd, W_svd))
 

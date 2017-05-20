@@ -10,6 +10,13 @@ from scipy.spatial.distance import cosine
 from scipy.sparse.linalg import svds
 
 DISPLAY_NUM = 10000
+                         
+def qr_handle(q,r,d):
+    for i in range(d):
+        if r[i,i] < 0:
+            r[i] *= -1
+            q[:,i] *= -1
+    return q,r
 class Word2vecMF(object):
     
     def __init__(self):
@@ -50,7 +57,29 @@ class Word2vecMF(object):
                     prevocabulary[word] = 1
                 else:
                     prevocabulary[word] += 1
+        # add check
+        datasets_path = "datasets"
+        indices = np.load(open(datasets_path+'/indices.npz', 'rb'))
+        sorted_names = ['mc30', 'rg65', 'verb143', 'wordsim_sim', 'wordsim_rel', 'wordsim353', 
+                    'mturk287', 'mturk771', 'simlex999', 'rw2034', 'men3000']
+        corrs_dict = {}
+            
+        for name in sorted_names:
+            corrs = []
+            pairs_num = indices['0'+name].size
+            idx = np.arange(pairs_num)
+            np.random.shuffle(idx)
+            f = open(datasets_path+'/'+name+'.csv')
+            data = f.readlines()
+            ind1 = []
+            ind2 = []
+            scores = []
+            for line in data:
+                tmp = line.split(';')
+                # print tmp
 
+                #print tmp[0], prevocabulary[tmp[0]]
+                #print tmp[1], prevocabulary[tmp[1]]
         vocabulary = {}
         idx = 0
         for word in prevocabulary:
@@ -197,6 +226,7 @@ class Word2vecMF(object):
                 self.save_CW(save[1], 0)
         
         X = (self.C).T.dot(self.W)
+        
         for it in xrange(from_iter, from_iter+MAX_ITER):
             
             if (display):
@@ -213,16 +243,25 @@ class Word2vecMF(object):
                 self.save_CW(save[1], it+1)
                      
             F = self.grad_MF(self.C, self.W)
+            print self.MF(self.C,self.W)
             #mask = np.random.binomial(1, .5, size=F.shape)
             #F = F * mask
             
-            U, _ = qr((X + eta*F).dot(V))
+            U, S1 = qr((X + eta*F).dot(V))
+            #U, S1 = qr_handle(U,S1,d)
             V, S = qr((X + eta*F).T.dot(U))
-            V = V.T
+            #V, S = qr_handle(V,S,d)
+
+            #print V[0]
+            # ans = S1-S.T
+            # tmp = ans.copy()
+            # ans[abs(tmp)> 0.1] = 1
+            # ans[abs(tmp) < 0.1] = 0
+            # print ans
+            # print S1
             S = S.T
             
-            X = U.dot(S).dot(V)                                  
-
+            X = U.dot(S).dot(V.T)         
     def stochastic_ps(self, eta=5e-6, batch_size=100, d=100, 
                     MAX_ITER=1, from_iter=0, display=0,
                     init=(False, None, None), save=(False, None)):
@@ -348,6 +387,8 @@ class Word2vecMF(object):
         C = np.load(open(from_folder+'/C'+pref+'.npz', 'rb'))['C']
         W = np.load(open(from_folder+'/W'+pref+'.npz', 'rb'))['W']
         
+        self.C = C
+        self.W = W
         return C, W
     
     def factors_to_MF(self, from_folder, to_file, MAX_ITER, from_iter=0):
@@ -392,7 +433,7 @@ class Word2vecMF(object):
             
         return vec
     
-    def nearest_words(self, word, top=20, display=False):
+    def nearest_words(self, word, top=10, display=False):
         """
         Find the nearest words to the word 
         according to the cosine similarity.

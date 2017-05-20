@@ -22,3 +22,20 @@ from functions import *
 
 
 model_enwik = Word2vecMF()
+model_enwik.load_matrices(from_file='enwik-200/matrices.npz')
+
+MAX_ITER = 15 
+words = ["five", "he", "main", "him"]
+for i in range(MAX_ITER):
+    model_enwik.load_CW('enwik-200/PS20iter_fromSVD_dim200_step5e-05_factors', i)
+    l = len(model_enwik.W[0])
+    print l
+    MF = model_enwik.MF(model_enwik.C, model_enwik.W)
+    print l*200*MF
+    print MF
+model_enwik.load_CW('enwik-200/PS20iter_fromSVD_dim200_step5e-05_factors', 15)
+for word in words:
+    ans = model_enwik.nearest_words(word)
+    for i in ans:
+        print i
+    print ""

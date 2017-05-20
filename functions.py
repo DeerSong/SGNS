@@ -73,7 +73,7 @@ def opt_experiment(model,
     
     if (mode == 'PS'):
         model.projector_splitting(eta=eta, d=d, MAX_ITER=MAX_ITER, from_iter=from_iter,
-                                  init=init_, save=(True, from_folder))
+                    display=1,              init=init_, save=(True, from_folder))
         
     if (mode == 'SPS'):
         model.stochastic_ps(eta=eta, batch_size=batch_size, d=d, MAX_ITER=MAX_ITER, from_iter=from_iter,
