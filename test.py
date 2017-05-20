@@ -137,7 +137,7 @@ opt_experiment(model_enwik,
                d=200,
                eta = 5e-5,
                MAX_ITER=10,
-               from_iter=10,
+               from_iter=17,
                start_from='SVD',
                init=(True, C_svd, W_svd))
 
