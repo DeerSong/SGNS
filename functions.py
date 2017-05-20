@@ -93,7 +93,7 @@ def datasets_corr(model, datasets_path, from_folder, MAX_ITER=100, plot_corrs=Fa
     Calculate correlations for all datasets in datasets_path
     """
     
-    indices = np.load(open(datasets_path+'/indices.npz', 'rb'))
+    # indices = np.load(open(datasets_path+'/indices.npz', 'rb'))
     sorted_names = ['mc30', 'rg65', 'verb143', 'wordsim_sim', 'wordsim_rel', 'wordsim353', 
                     'mturk287', 'mturk771', 'simlex999', 'rw2034', 'men3000']
     
@@ -101,7 +101,6 @@ def datasets_corr(model, datasets_path, from_folder, MAX_ITER=100, plot_corrs=Fa
     corrs_dict = {}
     #for filename in os.listdir(datasets_path):
         #if filename[-4:]=='.csv':
-        
     for name in sorted_names:
         
         corrs = []
@@ -111,9 +110,21 @@ def datasets_corr(model, datasets_path, from_folder, MAX_ITER=100, plot_corrs=Fa
         np.random.shuffle(idx)
         idx = idx[:int(train_ratio * pairs_num)]
         
-        ind1 = indices['0'+name][idx]
-        ind2 = indices['1'+name][idx]
-        scores = indices['2'+name][idx]
+        f = open(name+".csv")
+        data = f.readlines()
+        ind1 = []
+        ind2 = []
+        scores = []
+        for line in data:
+            tmp = line.split(";")
+            print tmp
+            if model.vocab.has_key(tmp[0]) and model.vocab.has_key(tmp[1]):
+                ind1.append(model.inv_vocab[tmp[0]])
+                ind2.append(model.inv_vocab[tmp[1]])
+                scores.append(float(tmp[2][:len(tmp[2])-2]))
+        # ind1 = indices['0'+name][idx]
+        # ind2 = indices['1'+name][idx]
+        # scores = indices['2'+name][idx]
 
         for it in xrange(MAX_ITER):
             W, C = model.load_CW(from_folder, it)
