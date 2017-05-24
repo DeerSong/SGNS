@@ -125,6 +125,7 @@ def datasets_corr(model, datasets_path, from_folder, MAX_ITER=100, plot_corrs=Fa
                 ind1.append(model.vocab[tmp[0]])
                 ind2.append(model.vocab[tmp[1]])
                 scores.append(float(tmp[2][:len(tmp[2])-2]))
+	print name
         print float(size)/S
         # ind1 = indices['0'+name][idx]
         # ind2 = indices['1'+name][idx]
