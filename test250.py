@@ -32,7 +32,7 @@ from functions import *
 # In[2]:
 
 # Load enwik 9
-f = open("data/enwik/250ab")
+f = open("data/enwik/250aa")
 data = f.read()
 data = data.split('.')
 f.close()
@@ -98,16 +98,16 @@ print "finish Parsing"
 
 # Create word2vec as matrix factorization model
 model_enwik = Word2vecMF()
-model_enwik.data_to_matrices(real_sentences, 200, 5, 'enwik-200/matrices250.npz')
+model_enwik.data_to_matrices(real_sentences, 200, 5, 'enwik-200/matrices250aa.npz')
 
-
+import os
+os._exit(1)
 # In[ ]:
 
 # If the model has been already created, load it from file
 model_enwik = Word2vecMF()
-model_enwik.load_matrices(from_file='enwik-200/matrices250.npz')
+model_enwik.load_matrices(from_file='enwik-200/matrices250aa.npz')
 print "finish Loading"
-
 # ## Train ro_sgns model starting from SVD of SPPMI
 
 # In[ ]:
