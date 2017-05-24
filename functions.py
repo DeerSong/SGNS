@@ -115,13 +115,17 @@ def datasets_corr(model, datasets_path, from_folder, MAX_ITER=100, plot_corrs=Fa
         ind1 = []
         ind2 = []
         scores = []
+        S = len(data)
+        size = 0
         for line in data:
             tmp = line.split(";")
             #print tmp
             if model.vocab.has_key(tmp[0]) and model.vocab.has_key(tmp[1]):
+                size += 1
                 ind1.append(model.vocab[tmp[0]])
                 ind2.append(model.vocab[tmp[1]])
                 scores.append(float(tmp[2][:len(tmp[2])-2]))
+        print float(size)/S
         # ind1 = indices['0'+name][idx]
         # ind2 = indices['1'+name][idx]
         # scores = indices['2'+name][idx]
