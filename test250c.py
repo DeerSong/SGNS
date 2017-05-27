@@ -32,10 +32,11 @@ from functions import *
 # In[2]:
 
 # Load enwik 9
-f = open("data/enwik/250ac")
+#f = open("data/enwik/250ac")
+'''f = open("data/enwik/250a+c")
 data = f.read()
 data = data.split('.')
-f.close()
+f.close()'''
 print "finish Reading"
 # data = np.genfromtxt("data/enwik/enwik9.txt", dtype=str, delimiter='.')
 #data = np.loadtxt("data/enwik/enwik9.txt", dtype=str, delimiter='.')
@@ -63,7 +64,7 @@ def wiki_to_wordlist(sentence, remove_stopwords=False ):
 # print sys.getsizeof([data])
 # str = raw_input("Enter your input: ");
 # print "Parsing sentences from training set"
-sentences = []  # Initialize an empty list of sentences
+'''sentences = []  # Initialize an empty list of sentences
 num = len(data)
 k = 0
 
@@ -91,21 +92,21 @@ for i, sentence in enumerate(sentences):
 real_sentences = np.array(sentences)[indices]
 del indices
 del sentences
-# print real_sentences
+# print real_sentences'''
 print "finish Parsing"
 
 # In[ ]:
 
 # Create word2vec as matrix factorization model
-model_enwik = Word2vecMF()
-model_enwik.data_to_matrices(real_sentences, 200, 5, 'enwik-200/matrices250.npz')
-
+'''model_enwik = Word2vecMF()
+model_enwik.data_to_matrices(real_sentences, 200, 5, 'enwik-200/matrices250a+c.npz')
+'''
 
 # In[ ]:
 
 # If the model has been already created, load it from file
 model_enwik = Word2vecMF()
-model_enwik.load_matrices(from_file='enwik-200/matrices250.npz')
+model_enwik.load_matrices(from_file='enwik-200/matrices250a+c.npz')
 print "finish Loading"
 
 # ## Train ro_sgns model starting from SVD of SPPMI
