@@ -91,7 +91,7 @@ if __name__ == '__main__':
     print "finish Parsing"
 
     # Create word2vec as matrix factorization model
-    model_enwik.data_to_matrices(real_sentences, 200, 5, 'enwik-200/'+filename+'.npz')
+    model_enwik.data_to_matrices(real_sentences, 200, 1, 'enwik-200/'+filename+'.npz')
   else:
     # If the model has been already created, load it from file
     model_enwik.load_matrices(from_file='enwik-200/'+filename+'.npz')
