@@ -3,7 +3,8 @@ data/enwik/enwik9
 data/enwik/enwik9.txt
 data/enwik/enwik9.zip
 data/enwik/fuck
-data/enwik/out
+data/enwik/out*
+data/enwik/in*
 data/enwik/10*
 data/enwik/250*
 enwik-200/

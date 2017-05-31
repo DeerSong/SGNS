@@ -36,6 +36,7 @@ while (<>) {
     s/{[^}]*}//g;
     s/\[//g;                # remove [ and ]
     s/\]//g;
+    s/\|//g;
     s/&[^;]*;/ /g;          # remove URL encoded chars
 
     # # convert to lowercase letters and spaces, spell digits
