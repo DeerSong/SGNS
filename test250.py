@@ -100,8 +100,7 @@ print "finish Parsing"
 model_enwik = Word2vecMF()
 model_enwik.data_to_matrices(real_sentences, 200, 5, 'enwik-200/matrices250aa.npz')
 
-import os
-os._exit(1)
+
 # In[ ]:
 
 # If the model has been already created, load it from file
