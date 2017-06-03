@@ -341,7 +341,7 @@ class Word2vecMF(object):
         sorted_vocab = sorted(self.vocab.items(), key=operator.itemgetter(1))
         vocab_to_save = np.array([item[0] for item in sorted_vocab])
         
-        np.savez(open(to_file, 'wb'), vocab=vocab_to_save, D=self.D, B=self.B)
+        np.save(open(to_file, 'wb'), vocab=vocab_to_save, D=self.D, B=self.B)
     
     ######################### Matrices to Factors ##########################
  
