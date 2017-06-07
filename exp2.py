@@ -22,18 +22,17 @@ from functions import *
 
 
 if __name__ == '__main__':
-    if len(sys.argv)!=2:
+    if len(sys.argv)!=3:
         print "Parameter Error!"
         print "Program Shutdown!"
     filename = sys.argv[1]
     model_enwik = Word2vecMF()
     model_enwik.load_matrices(from_file='enwik-200/'+filename+'.npz')
 
-    print(len(model_enwik.vocab))
-    print(len(model_enwik.inv_vocab))
-    print(len(model_enwik.D))
-    print(len(model_enwik.D[0]))
-    MAX_ITER = 8
+    print(model_enwik.vocab.shape)
+    print(model_enwik.inv_vocab.shape)
+    print(model_enwik.D.shape)
+    MAX_ITER = int(sys.argv[2])
     words = ["him", "five", "main"]
     #for i in range(MAX_ITER):
     #    model_enwik.load_CW('enwik-200/PS9iter_fromSVD_dim200_step5e-05_factors', i)
