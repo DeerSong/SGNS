@@ -131,7 +131,7 @@ def datasets_corr(model, datasets_path, from_folder, MAX_ITER=100, plot_corrs=Fa
         # ind2 = indices['1'+name][idx]
         # scores = indices['2'+name][idx]
 
-        for it in xrange(MAX_ITER):
+        for it in xrange(2,MAX_ITER):
             W, C = model.load_CW(from_folder, it)
             if (matrix == 'W'):
                 G = W

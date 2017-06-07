@@ -119,8 +119,8 @@ if __name__ == '__main__':
   opt_experiment(model_enwik,
                  mode='PS', 
                  d=200,
-                 eta = 3e-5,
-                 MAX_ITER=20,
+                 eta = 5e-5,
+                 MAX_ITER=10,
                  from_iter=0,
                  start_from='SVD',
                  init=(True, C_svd, W_svd))

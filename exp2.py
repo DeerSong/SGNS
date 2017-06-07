@@ -29,6 +29,10 @@ if __name__ == '__main__':
     model_enwik = Word2vecMF()
     model_enwik.load_matrices(from_file='enwik-200/'+filename+'.npz')
 
+    print(len(model_enwik.vocab))
+    print(len(model_enwik.inv_vocab))
+    print(len(model_enwik.D))
+    print(len(model_enwik.D[0]))
     MAX_ITER = 8
     words = ["him", "five", "main"]
     #for i in range(MAX_ITER):
